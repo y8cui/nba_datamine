@@ -19,9 +19,10 @@ players = response.json()['resultSets'][0]['rowSet']
 
 #http://stats.nba.com/stats/commonplayerinfo?LeagueID=00&PlayerID=1626143&SeasonType=Regular+Season
 
-conn = sqlite3.connect('project/nba.db')
+conn = sqlite3.connect('prject/nba.db')
 c = conn.cursor()
 
+c.execute("DROP TABLE IF EXISTS players_common_info");
 c.execute("CREATE TABLE players_common_info (PERSON_ID integer,\
                                              BIRTHDAY text,\
                                              WEIGHT text,\
@@ -37,12 +38,14 @@ for player in players:
     response = requests.get( player_common_info_base_url, params = params, headers = HEADERS )
     response.raise_for_status() # raise exception if invalid response
     player_common_info = response.json()['resultSets'][0]['rowSet'][0]
+    print (player_common_info)
     c.execute('INSERT INTO players_common_info VALUES (?,?,?,?,?)', 
 	(player_common_info[0],
     player_common_info[6],
     player_common_info[10],
     player_common_info[11],
     player_common_info[14]))
+    break
 
 conn.commit()
 conn.close()
