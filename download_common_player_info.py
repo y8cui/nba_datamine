@@ -19,7 +19,7 @@ players = response.json()['resultSets'][0]['rowSet']
 
 #http://stats.nba.com/stats/commonplayerinfo?LeagueID=00&PlayerID=1626143&SeasonType=Regular+Season
 
-conn = sqlite3.connect('prject/nba.db')
+conn = sqlite3.connect('project/nba.db')
 c = conn.cursor()
 
 c.execute("DROP TABLE IF EXISTS players_common_info");
@@ -45,7 +45,6 @@ for player in players:
     player_common_info[10],
     player_common_info[11],
     player_common_info[14]))
-    break
 
 conn.commit()
 conn.close()
